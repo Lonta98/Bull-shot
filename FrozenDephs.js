@@ -4,8 +4,8 @@
 
     function runAutoClicker() {
         // XPath mới nhất cho Nút 1 và Nút 2
-        const xpath1 = '//*[@id="root"]/div[1]/div/main/div/div[3]/section[4]/div[2]/div/div[5]/div/button[1]';
-        const xpath2 = '//*[@id="root"]/div[1]/div/main/div/div[5]/div/div[3]/button';
+        const xpath1 = '//*[@id="root"]/div[1]/div/main/div/div[2]/section[4]/div[2]/div/div[5]/div/button[2]';
+        const xpath2 = '//*[@id="root"]/div[1]/div/main/div/div[4]/div/div[3]/button';
 
         // 1. Xử lý Nút 1
         const btn1 = document.evaluate(xpath1, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -14,7 +14,7 @@
             btn1.click();
             console.log("%c[Thành công] Đã bấm Nút 1 lúc:", "color: green;", new Date().toLocaleTimeString());
         } else {
-            console.log("%c[Cảnh báo] Không tìm thấy hoặc Nút 1 chưa sẵn sàng.", "color: orange;");
+            console.log("%c[Bỏ qua] Nút 1 chưa xuất hiện, sẽ thử lại ở chu kỳ sau.", "color: orange;");
         }
 
         // 2. Xử lý Nút 2 sau độ trễ 2 giây
@@ -23,21 +23,26 @@
             
             if (btn2 && btn2.offsetParent !== null) {
                 if (btn2.innerText.toLowerCase().includes("deploying")) {
-                    console.log("%c[Thông báo] Nút 2 đang ở trạng thái Deploying...", "color: blue;");
+                    console.log("%c[Thông báo] Nút 2 đang ở trạng thái xử lý...", "color: blue;");
                 }
                 
                 btn2.click();
                 console.log("%c[Thành công] Đã bấm Nút 2 lúc:", "color: green;", new Date().toLocaleTimeString());
             } else {
-                console.log("%c[Cảnh báo] Không tìm thấy Nút 2 (có thể popup chưa bật lên kịp).", "color: orange;");
+                console.log("%c[Bỏ qua] Nút 2 chưa xuất hiện (popup chưa bật), tiếp tục chạy bình thường.", "color: orange;");
             }
         }, DELAY_BETWEEN_BTNS);
+    }
+
+    // Xóa bộ đếm cũ nếu có trước khi chạy mới
+    if (window.autoClickerInterval) {
+        clearInterval(window.autoClickerInterval);
     }
 
     // Chạy ngay lập tức lần đầu
     runAutoClicker();
 
-    // Lặp lại chu kỳ mỗi 10 giây
+    // Thiết lập lặp lại chu kỳ mỗi 10 giây
     window.autoClickerInterval = setInterval(runAutoClicker, INTERVAL_TIME);
-    console.log("%cĐã khởi động hệ thống Auto-Clicker 2 nút!", "color: purple; font-weight: bold;");
+    console.log("%cĐã khởi động Auto-Clicker chế độ an toàn (2 nút)!", "color: purple; font-weight: bold;");
 })();
