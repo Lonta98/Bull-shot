@@ -1,0 +1,2 @@
+clearInterval(window.autoClickerInterval);
+console.log("Đã tắt hoàn toàn auto-clicker.");
